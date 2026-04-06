@@ -95,7 +95,7 @@ ArticleChef.services.generateArticle = async (params) => {
 // ---------------------------------------------------------
 
 ArticleChef.components.Header = function () {
-    return `<header class="flex items-center justify-between p-4 mb-4 border-b" style="border-color: var(--border); background: white;"><div class="flex items-center gap-2" onclick="window.router.navigateTo('/')" style="cursor: pointer;"><i data-lucide="newspaper" style="color: var(--primary); width: 24px; height: 24px;"></i><h1 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">기사 뚝딱</h1></div><nav class="flex gap-3"><button onclick="window.router.navigateTo('/archive')" class="flex items-center gap-1" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;"><i data-lucide="archive" style="width: 16px; height: 16px;"></i>보관함</button></nav></header>`;
+    return `<header class="flex items-center justify-between p-4 mb-4 border-b" style="border-color: var(--border); background: white;"><div class="flex items-center gap-2" onclick="window.router.navigateTo('/')" style="cursor: pointer;"><i data-lucide="newspaper" style="color: var(--primary); width: 24px; height: 24px;"></i><h1 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">기사 뚝딱</h1></div><nav class="flex gap-3"><button onclick="window.router.navigateTo('/archive')" class="flex items-center gap-1" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;"><i data-lucide="archive" style="width: 16px; height: 16px;"></i>보관함</button><button onclick="window.router.navigateTo('/guide')" class="flex items-center gap-1" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;"><i data-lucide="smartphone" style="width: 16px; height: 16px;"></i>가이드</button></nav></header>`;
 };
 
 // ---------------------------------------------------------
@@ -112,6 +112,7 @@ ArticleChef.pages.Home = async function () {
             <div class="flex flex-col gap-5">
                 <button onclick="window.router.navigateTo('/scout')" class="card group shadow-sm border-blue-50 flex items-center justify-between"><div><span class="badge badge-blue mb-2 inline-block">아이템 스카우터</span><h3 style="font-size: 1.15rem; margin-bottom: 4px; font-weight:700;">뉴스를 찾아라</h3><p style="font-size: 0.85rem; color: var(--text-muted);">실시간 지역 소식과 행사 발굴</p></div><div style="background: #eff6ff; padding: 14px; border-radius: 16px;"><i data-lucide="search" style="color: var(--primary); width: 26px; height: 26px;"></i></div></button>
                 <button onclick="window.router.navigateTo('/builder')" class="card group shadow-sm border-emerald-50 flex items-center justify-between"><div><span class="badge badge-green mb-2 inline-block">기사 빌더</span><h3 style="font-size: 1.15rem; margin-bottom: 4px; font-weight:700;">기사 초안 작성</h3><p style="font-size: 0.85rem; color: var(--text-muted);">취재 메모를 고품격 기사로</p></div><div style="background: #ecfdf5; padding: 14px; border-radius: 16px;"><i data-lucide="pen-tool" style="color: #059669; width: 26px; height: 26px;"></i></div></button>
+                <button onclick="window.router.navigateTo('/guide')" class="card group shadow-sm flex items-center justify-between" style="border-color: #f3e8ff;"><div><span class="badge mb-2 inline-block" style="background:#f3e8ff; color:#7c3aed;">모바일 가이드</span><h3 style="font-size: 1.15rem; margin-bottom: 4px; font-weight:700;">Claude Code 활용법</h3><p style="font-size: 0.85rem; color: var(--text-muted);">앱 연계 워크플로우 & 프롬프트</p></div><div style="background: #f3e8ff; padding: 14px; border-radius: 16px;"><i data-lucide="smartphone" style="color: #7c3aed; width: 26px; height: 26px;"></i></div></button>
             </div>
             <div class="mt-8 pt-8 border-t" style="border-color: var(--border);"><div class="flex items-center justify-between mb-4"><h4 style="font-size: 0.95rem; font-weight: 700;">최근 작업 완료</h4><span onclick="window.router.navigateTo('/archive')" style="font-size: 0.8rem; color: var(--primary); cursor: pointer; font-weight: 600;">모두보기 ></span></div><div id="recent-articles-preview" style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1.5rem 0; background: var(--bg-input); border-radius: var(--radius-md);">기록이 아직 없습니다.</div></div>
         </main>`;
@@ -183,6 +184,136 @@ ArticleChef.pages.Builder = async function (state) {
     return container;
 };
 
+ArticleChef.pages.Guide = async function () {
+    const container = document.createElement('div');
+    container.className = 'container animate-fade-in';
+    container.innerHTML = `
+        ${ArticleChef.components.Header()}
+        <main class="p-6">
+            <div class="mb-6">
+                <span class="badge badge-blue mb-2 inline-block">모바일 가이드</span>
+                <h2 style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.4rem;">모바일에서 Claude Code 활용하기</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">스마트폰만으로 AI 기반 기사 작업 마스터하기</p>
+            </div>
+
+            <!-- 핵심 질문 -->
+            <div style="background: linear-gradient(135deg, #eff6ff, #e0f2fe); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; border-left: 4px solid var(--primary);">
+                <p style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem;">💡 모바일 Claude Code란?</p>
+                <p style="font-size: 0.88rem; color: #1e40af; line-height: 1.6;">PC 터미널 없이, <strong>크롬 브라우저</strong>에서 claude.ai/code 에 접속하기만 하면 AI 코딩 어시스턴트를 바로 사용할 수 있어요. 기자님의 앱들과 연계하면 훨씬 강력해집니다.</p>
+            </div>
+
+            <!-- 섹션 1: 할 수 있는 것들 -->
+            <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main);">📱 모바일에서 할 수 있는 것들</h3>
+            <div class="flex flex-col gap-3 mb-6">
+                <div class="card p-4 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div style="background: #eff6ff; padding: 8px; border-radius: 10px; flex-shrink: 0;"><i data-lucide="message-circle" style="color: var(--primary); width: 20px; height: 20px;"></i></div>
+                        <span style="font-weight: 700; font-size: 0.95rem;">대화형 코드 작업</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">코드 스니펫을 붙여넣고 버그 수정, 기능 추가, 리팩터링을 요청할 수 있어요. 이 앱(기사 뚝딱)의 기능 개선도 가능!</p>
+                </div>
+                <div class="card p-4 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div style="background: #ecfdf5; padding: 8px; border-radius: 10px; flex-shrink: 0;"><i data-lucide="file-text" style="color: #059669; width: 20px; height: 20px;"></i></div>
+                        <span style="font-weight: 700; font-size: 0.95rem;">파일 업로드 & 분석</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">취재 메모 파일, 보도자료 PDF 등을 첨부하면 내용 요약·기사 앵글 추천을 받을 수 있어요.</p>
+                </div>
+                <div class="card p-4 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div style="background: #fef3c7; padding: 8px; border-radius: 10px; flex-shrink: 0;"><i data-lucide="zap" style="color: #d97706; width: 20px; height: 20px;"></i></div>
+                        <span style="font-weight: 700; font-size: 0.95rem;">즉석 프로토타이핑</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">아이디어를 말로 설명하면 HTML/JS 코드를 바로 생성해 줘요. 새 페이지나 기능을 출근길에 기획하고 적용할 수 있어요.</p>
+                </div>
+            </div>
+
+            <!-- 섹션 2: 앱별 연계 워크플로우 -->
+            <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main);">🔗 자주 쓰는 앱과 연계하는 법</h3>
+            <div class="flex flex-col gap-3 mb-6">
+
+                <div class="card p-4 shadow-sm">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                        <span style="font-size: 1.1rem;">🌐</span>
+                        <span style="font-weight: 800; font-size: 0.9rem;">구글 크롬</span>
+                        <span class="badge badge-blue">주 접속 경로</span>
+                    </div>
+                    <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;">크롬에서 <strong>claude.ai/code</strong> 를 홈 화면에 추가(PWA)하면 앱처럼 사용할 수 있어요. 탭 전환으로 기사 뚝딱 ↔ Claude Code를 빠르게 오갈 수 있습니다.</p>
+                </div>
+
+                <div class="card p-4 shadow-sm">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                        <span style="font-size: 1.1rem;">🗒️</span>
+                        <span style="font-weight: 800; font-size: 0.9rem;">옵시디언</span>
+                        <span class="badge badge-green">메모 → 기사</span>
+                    </div>
+                    <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;">옵시디언에서 취재 메모를 작성 → 전체 선택·복사 → Claude Code에 붙여넣고 <em>"이 메모로 스트레이트 기사 초안 작성해줘"</em>. 완성된 초안을 다시 옵시디언에 저장하면 버전 관리까지 됩니다.</p>
+                </div>
+
+                <div class="card p-4 shadow-sm">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                        <span style="font-size: 1.1rem;">📋</span>
+                        <span style="font-weight: 800; font-size: 0.9rem;">노션</span>
+                        <span class="badge" style="background:#f3e8ff; color:#7c3aed; font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:4px;">기사 DB</span>
+                    </div>
+                    <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;">노션 데이터베이스를 기사 보관함으로 활용하세요. Claude Code로 생성한 기사 초안을 노션에 붙여넣고, 날짜·카테고리·태그를 정리하면 아카이브가 완성됩니다.</p>
+                </div>
+
+                <div class="card p-4 shadow-sm">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                        <span style="font-size: 1.1rem;">💬</span>
+                        <span style="font-weight: 800; font-size: 0.9rem;">카카오톡</span>
+                        <span class="badge" style="background:#fef9c3; color:#a16207; font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:4px;">팀 협업</span>
+                    </div>
+                    <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;">현장에서 제보 받은 내용을 카카오톡 "나에게 보내기"로 보관 → Claude Code에 붙여넣어 팩트체크 질문 목록 생성 → 편집장에게 공유하는 루틴을 만들어 보세요.</p>
+                </div>
+
+                <div class="card p-4 shadow-sm">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                        <span style="font-size: 1.1rem;">🤖</span>
+                        <span style="font-weight: 800; font-size: 0.9rem;">Claude · 퍼플렉시티 · 제미나이</span>
+                        <span class="badge" style="background:#fce7f3; color:#be185d; font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:4px;">AI 멀티 활용</span>
+                    </div>
+                    <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;"><strong>퍼플렉시티</strong>로 최신 뉴스·출처 검색 → <strong>Claude Code</strong>로 기사 초안 작성 → <strong>제미나이</strong>로 제목 대안 3개 생성. 각 AI의 강점을 역할 분담하면 속보 대응 속도가 올라갑니다.</p>
+                </div>
+            </div>
+
+            <!-- 섹션 3: 추천 프롬프트 -->
+            <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main);">✨ 기자를 위한 추천 프롬프트</h3>
+            <div class="flex flex-col gap-2 mb-6">
+                ${[
+                    { icon: '📰', text: '"아래 보도자료를 300자 스트레이트 기사로 변환해줘. 역피라미드 구조로."' },
+                    { icon: '🎯', text: '"이 행사 공고에서 기사 앵글 3가지를 뽑아줘. 지역 독자 관심사 중심으로."' },
+                    { icon: '❓', text: '"인터뷰 대상: 동네 빵집 30년 운영 사장님. 감성 기사용 질문 10개 만들어줘."' },
+                    { icon: '✅', text: '"이 기사 초안에서 사실 확인이 필요한 부분과 보완할 내용 알려줘."' },
+                    { icon: '📱', text: '"이 기사에 어울리는 SNS 캡션 (트위터 140자, 인스타 200자) 각각 써줘."' }
+                ].map(p => `
+                <div style="background: var(--bg-input); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <span style="font-size: 1rem; flex-shrink: 0;">${p.icon}</span>
+                    <p style="font-size: 0.82rem; color: var(--text-main); line-height: 1.6;">${p.text}</p>
+                </div>`).join('')}
+            </div>
+
+            <!-- 섹션 4: 모바일 팁 -->
+            <div style="background: #f0fdf4; border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; border: 1px solid #bbf7d0;">
+                <p style="font-weight: 800; color: #166534; margin-bottom: 0.75rem; font-size: 0.9rem;">💚 모바일 사용 꿀팁</p>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                    ${[
+                        '크롬 주소창에 <strong>claude.ai/code</strong> 를 북마크해 두세요',
+                        '응답이 길면 <strong>"요약해줘"</strong> 한 마디로 핵심만 추출 가능해요',
+                        '<strong>음성 입력</strong>으로 현장에서 바로 취재 메모를 프롬프트로 전달할 수 있어요',
+                        '코드 블록은 꾹 눌러서 <strong>전체 선택 → 복사</strong>로 간편하게 가져오세요',
+                        '대화 내용은 <strong>공유 버튼</strong>으로 링크를 팀원과 나눌 수 있어요'
+                    ].map(tip => `<li style="font-size: 0.83rem; color: #166534; display: flex; gap: 0.5rem; align-items: flex-start;"><span style="flex-shrink: 0;">•</span><span>${tip}</span></li>`).join('')}
+                </ul>
+            </div>
+
+            <button onclick="window.router.navigateTo('/')" class="btn btn-secondary w-full">← 홈으로 돌아가기</button>
+        </main>`;
+    setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 0);
+    return container;
+};
+
 ArticleChef.pages.Archive = async function () {
     const container = document.createElement('div');
     container.className = 'container animate-fade-in';
@@ -227,5 +358,5 @@ class Router {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.router = new Router({ '/': ArticleChef.pages.Home, '/scout': ArticleChef.pages.Scout, '/builder': ArticleChef.pages.Builder, '/archive': ArticleChef.pages.Archive });
+    window.router = new Router({ '/': ArticleChef.pages.Home, '/scout': ArticleChef.pages.Scout, '/builder': ArticleChef.pages.Builder, '/archive': ArticleChef.pages.Archive, '/guide': ArticleChef.pages.Guide });
 });
